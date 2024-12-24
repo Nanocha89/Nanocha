@@ -1,0 +1,688 @@
+<!DOCTYPE html><html lang="ja"><head>
+
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./Style_Black.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.min.js"></script>
+<script>
+const app = new Vue({ 
+	el: "#app", 
+	data() { 
+	ifshow: true
+					},
+	mounted() { 
+		  this.$nextTick(() => {
+    this.setRect(360, 320); 
+  });
+		var layout = function () {
+			if (Math.abs(window.orientation) == 90) { 
+		setWindowRect(0, 0, window.screen.height, window.screen.width); 
+			} else {
+		setWindowRect(0, 0, window.screen.width, window.screen.height);
+		}
+			}
+		window.addEventListener("orientationchange", layout, false);
+		
+					},
+		methods: {
+			setRect(w, h, x = -1, y = -1) {
+			var boxW = w;
+			var boxH = h;
+			var nanochanMenu = this.$refs.menuMain;
+			nanochanMenu.style.width = `${boxW}px`;
+			nanochanMenu.style.height = `${boxH}px`;
+				if (x == -1) nanochanMenu.style.left = `calc(50% - ${boxW / 2}px)`;
+				if (y == -1) nanochanMenu.style.top = `calc(50% - ${boxH / 2}px)`;
+					},
+			<!-- ページを掴んで移動させる処理。今後実装予定 -->
+			titleTouchStart(event) {
+				},
+			titleTouchMove(event) {
+				},
+			}
+		});
+</script>
+<title>iOS Mod Template</title>
+
+<style>
+		.AzSoonAzDie {
+			color: black;
+			position: fixed;
+			width: 360px;
+			height: 320px;
+			top: calc(50% - 180px);
+			left: calc(50% - 180px);
+			z-index: 999;
+			background-color: rgba(255, 255, 255, 0.5);
+			color: #000;
+			/* border-radius: 8px; */
+			overflow: hidden;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			border-radius: 10px;
+			
+			
+		}
+		
+        body {
+            font-family: Optima-Bold, sans-serif;
+			background-color: rgba(0, 0, 0, 0.0);
+			color: #000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .header {
+        	font-family: Optima-Bold, sans-serif;
+            display: flex;
+            justify-content: center; /* 中央揃えに設定 */
+            align-items: center;
+            padding: 8px;
+            font-size: 30px;
+			background-color: rgba(255, 255, 255, 0.5);
+			color: #fff;
+            border-bottom: 1px solid #d1d1d6;
+            
+        }
+
+        .container {
+            max-width: 355px;
+            max-height: 365px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+			background-color: rgba(255, 255, 255, 0.5);
+			color: #262626;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            
+        }
+
+        .home-button {
+            font-size: 18px;
+            color: #0a84ff;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .header-title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 23px;
+            color: #000;
+        }
+
+        .page {
+            display: none;
+            max-height: calc(100% - 40px); /* Adjust for header height */
+            overflow-y: auto;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .settings-header {
+            text-align: left;
+            padding: 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .settings-section {
+            font-family: optima, sans-serif;
+            font-size: 20px;
+            
+            margin-top: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #d1d1d6;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            
+        }
+
+        .settings-item {
+            font-family: optima, sans-serif;
+            font-size: 20px;
+            
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.5);
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #d1d1d6;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)
+            
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .settings-text {
+            flex-grow: 1;
+            font-size: 14px;
+        }
+
+        .settings-value {
+            color: #8e8e93;
+            margin-right: 10px;
+        }
+
+        .notification-badge {
+            background-color: red;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .arrow {
+            color: #c7c7cc;
+            font-size: 18px;
+        }
+
+        .icon-image {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background-color: #d1d1d6;
+            margin-right: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0a84ff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #007aff;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+                .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            border-radius: 28px;
+            transition: 0.4s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            height: 24px;
+            width: 24px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+
+        input:checked + .slider {
+            background-color: #34C759;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+        
+                .slider-container,
+        .toggle-container {
+        	background-color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px;
+            position: relative;
+            text-align: center;
+            border-bottom: 1px solid #d1d1d6;
+            border-radius: 0px;
+            width: 100%;
+            display: flex; /* 1 */
+    
+    align-items: center; /* 3 */
+        }
+
+.slider-container {
+    
+    margin-bottom: 30px;
+    position: relative;
+    display: flex;                 
+    flex-direction: column;       
+    width: 100%;                     
+    height: 65px;                  
+    margin: 0 auto;                 
+}
+
+.slider-container label,
+#sliderValue {
+    font-size: 16px;               
+    margin-bottom: 5px;             
+    margin-top: 5px;      
+    margin-left: 10px;    
+    display: inline-block; 
+    text-align: left;   
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 90%;
+    background: transparent;
+    height: 4px;
+    border-radius: 5px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, #007AFF 0%, #007AFF var(--value, 0%), #333 var(--value, 0%), #333 100%);
+    height: 4px;
+    border-radius: 5px;
+}
+
+input[type="range"]::-moz-range-track {
+    background: linear-gradient(to right, #007AFF 0%, #007AFF var(--value, 0%), #333 var(--value, 0%), #333 100%);
+    height: 4px;
+    border-radius: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    margin-top: -12px;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+        
+        #sliderValue {
+            position: static;
+            display: inline-block;
+            margin-left: 0.75em;
+            text-align: left;
+            width: 50px;
+            font-size: 16px;
+        }
+        .rainbow-text {
+            font-size: 19px;
+            font-weight: bold;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-animation 5s ease-in-out infinite;
+            text-align: center;
+        }
+
+        @keyframes rainbow-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .header-icon {
+    width: 24px; /* アイコンの幅 */
+    height: 24px; /* アイコンの高さ */
+    margin-right: 8px; /* テキストとの間の余白 */
+    border-radius: 4px; /* 角丸を追加（必要なら） */
+    object-fit: cover; /* アイコンのサイズを調整 */
+}
+</style>
+</head>
+
+<body>
+<!-- ########################################################################################################################## -->
+
+<!--                                                  メニュー項目                                                              -->
+
+<!-- ########################################################################################################################## -->
+<div class="AzSoonAzDie" ref="メニューMain">
+<div class="header">
+    <span class="rainbow-text">iOS Mod Template</span>
+</div>
+<div id="home" class="page active">
+
+<!-- --------------------------------------------------------------------------------- -->
+
+
+<div class="slider-container">
+	<label for="slider1">スライダー(0.xx) <span id="sliderValue">0</span></label>
+    <input type="range" id="SliderPatchTest1" min="0" max="12" step="1" value="0"></div>
+
+<div class="slider-container">
+	<label for="slider6">スライダー(～31) <span id="sliderValue2">0</span></label>
+    <input type="range" id="SliderPatchTest2" min="0" max="14" step="1" value="0">
+</div>
+
+<!-- --------------------------------------------------------------------------------- -->
+
+<div class="settings-item">
+    <img src="https://em-content.zobj.net/source/apple/391/red-heart_2764-fe0f.png" alt="BinaryPatchTest1" class="icon-image">
+    <span class="settings-text">メニュー1</span>
+    <label class="toggle-switch">
+        <input type="checkbox" id="BinaryPatchTest1">
+        <span class="slider round"></span>
+    </label>
+</div>
+
+<div class="settings-item">
+    <img src="https://em-content.zobj.net/source/apple/391/blue-heart_1f499.png" alt="BinaryPatchTest2" class="icon-image">
+    <span class="settings-text">メニュー2</span>
+    <label class="toggle-switch">
+        <input type="checkbox" id="BinaryPatchTest2">
+        <span class="slider round"></span>
+    </label>
+</div>
+
+<!-- --------------------------------------------------------------------------------- -->
+
+<div class="settings-item">
+    <img src="https://em-content.zobj.net/source/apple/391/fire_1f525.png" alt="BinaryPatchTest1" class="icon-image">
+    <span class="settings-text">メニュー3</span>
+    <label class="toggle-switch">
+        <input type="checkbox" id="MemoryPatchTest2">
+        <span class="slider round"></span>
+    </label>
+</div>
+
+<div class="settings-item">
+    <img src="https://em-content.zobj.net/source/apple/391/star_2b50.png" alt="BinaryPatchTest1" class="icon-image">
+    <span class="settings-text">メニュー4</span>
+    <label class="toggle-switch">
+        <input type="checkbox" id="Player_MemoryPatchTest1">
+        <span class="slider round"></span>
+    </label>
+</div>
+
+<!-- --------------------------- メニューを追加 ------------------------- -->
+<div class="header"></div>
+    </div>
+
+<div id="settings1" class="page">
+        <div class="settings-header">
+        </div>
+                
+</div>
+<!-- ########################################################################################################################## -->
+<script>
+   function showPage(pageId) {
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+    }
+        // Function to populate settings items
+        function populateSettings(pageId, items) {
+            const container = document.getElementById(pageId + '-items-container');
+            items.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('settings-item');
+                div.innerHTML = `
+                    <img src="${item.icon}" alt="${item.id}" class="icon-image">
+                    <span class="settings-text">${item.text}</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="${item.id}">
+                        <span class="slider round"></span>
+                    </label>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+function Kill_Az1520(addr, hex) {
+    for (let i = 0; i < hex.length / 2; i++) {
+        let item = parseInt(hex.substring(i * 2, (i * 2) + 2), 16);
+        h5gg.setValue(addr + i, item, "U8");
+    }
+}
+
+function Fuck_Az1520(toggleId, offset, patchOn, patchOff) {
+    h5gg.clearResults();
+    let base = h5gg.getRangesList("Game")[0].start;
+    let addr = Number(base) + offset;
+    let patch = document.querySelector(`#${toggleId}`).checked ? patchOn : patchOff;
+    Kill_Az1520(addr, patch);
+}
+
+function Die_Az1520(toggleId, patchList) {
+        h5gg.clearResults();
+        let base = h5gg.getRangesList("Game")[0].start;
+
+        patchList.forEach(patch => {
+            let addr = Number(base) + patch.offset;
+            let patchHex = document.querySelector(`#${toggleId}`).checked ? patch.patchOn : patch.patchOff;
+            Kill_Az1520(addr, patchHex);
+        });
+    }
+
+
+
+<!-- ######################################################################################################################### -->
+<!-- 																															-->
+<!-- 											バイナリ&メモリパッチリスト														-->
+<!-- 																															-->
+<!-- ########################################################################################################################## -->
+// ■■■■■■■■■■■■■■■ バイナリ ■■■■■■■■■■■■■■■
+document.getElementById('BinaryPatchTest1').addEventListener("change", () => {
+Fuck_Az1520('BinaryPatchTest1', 0x1398708, "00F0271E", "00102E1E"); <!-- 架空のオフセットです。書き替えてください。-->
+});
+<!-- ---------------------------------------------------------------------------------------- -->
+
+document.getElementById('BinaryPatchTest2').addEventListener("change", () => {
+Fuck_Az1520('BinaryPatchTest2', 0x1523450, "00F0271E", "00102E1E");
+Fuck_Az1520('BinaryPatchTest2', 0x1523454, "01F0271E", "01102E1E");
+});
+
+// ■■■■■■■■■■■■■■■ メモリ ■■■■■■■■■■■■■■■
+document.getElementById('Player_MemoryPatchTest1').addEventListener("change", function() {
+        if (this.checked) {
+            MemoryPatchTest1_ON();
+        } else {
+            MemoryPatchTest1_OFF();
+        }
+    });
+
+function MemoryPatchTest1_ON(){
+    h5gg.clearResults();
+    h5gg.searchNumber('0.1', 'F32', '0x100000000', '0x200000000'); <!-- 架空の検索値です。書き替えてください。-->
+    h5gg.searchNearby('0', 'F32', '0x10');
+    h5gg.searchNumber('0', 'F32', '0x100000000', '0x200000000'); 
+    h5gg.editAll('100', 'F32');
+}
+
+function MemoryPatchTest1_OFF(){
+    h5gg.clearResults();
+    h5gg.searchNumber('100', 'F32', '0x100000000', '0x200000000'); 
+    h5gg.editAll('0', 'F32');
+}
+
+<!-- ---------------------------------------------------------------------------------------- -->
+
+document.getElementById('MemoryPatchTest2').addEventListener("change", function() {
+        if (this.checked) {
+            MemoryPatchTest2_ON();
+        } else {
+            MemoryPatchTest2_OFF();
+        }
+    });
+
+function MemoryPatchTest2_ON(){
+    h5gg.clearResults();
+    h5gg.searchNumber('200', 'F64', '0x280000000', '0x300000000'); 
+    h5gg.searchNearby('1', 'F64', '0x30');
+    h5gg.editAll('999', 'F64');
+}
+
+function MemoryPatchTest2_OFF(){
+    h5gg.clearResults();
+    h5gg.searchNumber('999', 'F32', '0x280000000', '0x300000000'); 
+    h5gg.editAll('200', 'F32');
+}
+
+<!-- ######################################################################################################################### -->
+<!-- 																															-->
+<!-- 										↓↓↓↓↓スライダーを追加↓↓↓↓↓												-->
+<!-- 																															-->
+<!-- ########################################################################################################################## -->
+const sliderConfigs = {
+
+    slider1: {
+        elementId: "SliderPatchTest1",
+        valueElementId: "sliderValue",
+        steps: [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 2, 3, 4, 5],
+        patchData: {
+            0: ["E003271E"],
+            0.125: ["0010281E"],
+            0.25: ["00102A1E"],
+            0.375: ["00102B1E"],
+            0.5: ["00102C1E"],
+            0.625: ["00902C1E"],
+            0.75: ["00102D1E"],
+            0.875: ["00902D1E"],
+            1: ["00102E1E"],
+            2: ["0010201E"],
+            3: ["0010211E"],
+            4: ["0010221E"],
+            5: ["0090221E"]
+        },
+        addrOffsets: [0x123456C] 
+    },
+
+
+    slider2: {
+        elementId: "SliderPatchTest2",
+        valueElementId: "sliderValue2",
+        steps: [0,1,2,3,4,5,6,7,8,9,10,15,20,25,31],
+        patchData: {
+            0: ["2138201E"],
+            1: ["00102E1E"],
+            2: ["0010201E"],
+            3: ["0010211E"],
+            4: ["0010221E"],
+            5: ["0090221E"],
+            6: ["0010231E"],
+            7: ["0090231E"],
+            8: ["0010241E"],
+            9: ["0050241E"],
+            10: ["0090241E"],
+            15: ["00D0251E"],
+            20: ["0090261E"],
+            25: ["0030271E"],
+            31: ["00F0271E"]
+        },
+        addrOffsets: [0x1234568] 
+    },
+
+<!-- ここに新しいスライダーを追加 -->
+
+};
+<!-- ↓スライダーを増やすときは「setupSlider(sliderConfigs.slider〇〇);」の追加も忘れずに↓ -->
+setupSlider(sliderConfigs.slider1);
+setupSlider(sliderConfigs.slider2);
+
+
+<!-- ########################################################################################################################## -->
+function setupSlider(config) {
+    const slider = document.getElementById(config.elementId);
+    const sliderValue = document.getElementById(config.valueElementId);
+
+    function updateSliderValue() {
+        const stepIndex = Math.round((slider.value - slider.min) / slider.step);
+        const value = config.steps[stepIndex];
+        sliderValue.innerText = value;
+    }
+
+    updateSliderValue();
+
+    function executeSliderFunction(value) {
+        h5gg.clearResults();
+        const modules = h5gg.getRangesList("Game");
+        const base = modules[0].start;
+
+        if (config.patchData[value]) {
+            const patches = config.patchData[value];
+            config.addrOffsets.forEach((offset, index) => {
+                const addr = Number(base) + offset;
+                Kill_Az1520(addr, patches[index]);
+            });
+        } else {
+            alert("Unknown slider value: " + value);
+        }
+    }
+
+    slider.addEventListener("input", updateSliderValue);
+
+    slider.addEventListener("change", () => {
+        const stepIndex = Math.round((slider.value - slider.min) / slider.step);
+        const value = config.steps[stepIndex];
+        executeSliderFunction(value);
+    });
+}
+
+function updateSliderGradient(slider) {
+    const min = slider.min || 0;
+    const max = slider.max || 100;
+    const value = slider.value;
+
+    const percentage = ((value - min) / (max - min)) * 100;
+
+    slider.style.setProperty("--value", `${percentage}%`);
+}
+
+document.querySelectorAll('input[type="range"]').forEach(slider => {
+    slider.addEventListener("input", () => updateSliderGradient(slider));
+
+    updateSliderGradient(slider);
+});
+
+</script>
+</body>
+</html>
